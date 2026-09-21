@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>For Priya 💌</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg1: #ffe3ee;
+    --bg2: #ffc4d9;
+    --bg3: #ffd8c9;
+    --card: rgba(255, 255, 255, 0.78);
+    --card-border: rgba(255, 255, 255, 0.9);
+    --text: #5b1a3a;
+    --muted: #9a4a6c;
+    --accent: #ff3d7f;
+    --accent-2: #ff7aa8;
+    --on-accent: #ffffff;
+    --ghost-bg: rgba(255, 255, 255, 0.85);
+    --ghost-border: #ffb3cd;
+    --shadow: rgba(255, 61, 127, 0.28);
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg1: #2b1024;
+      --bg2: #4b1742;
+      --bg3: #3a1230;
+      --card: rgba(52, 20, 46, 0.78);
+      --card-border: rgba(255, 140, 190, 0.25);
+      --text: #ffe7f1;
+      --muted: #f5a9c8;
+      --accent: #ff5c93;
+      --accent-2: #ff8db3;
+      --on-accent: #2b0a1c;
+      --ghost-bg: rgba(255, 255, 255, 0.08);
+      --ghost-border: rgba(255, 140, 190, 0.5);
+      --shadow: rgba(255, 92, 147, 0.3);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg1: #2b1024;
+    --bg2: #4b1742;
+    --bg3: #3a1230;
+    --card: rgba(52, 20, 46, 0.78);
+    --card-border: rgba(255, 140, 190, 0.25);
+    --text: #ffe7f1;
+    --muted: #f5a9c8;
+    --accent: #ff5c93;
+    --accent-2: #ff8db3;
+    --on-accent: #2b0a1c;
+    --ghost-bg: rgba(255, 255, 255, 0.08);
+    --ghost-border: rgba(255, 140, 190, 0.5);
+    --shadow: rgba(255, 92, 147, 0.3);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { height: 100%; scroll-padding-top: env(safe-area-inset-top, 0px); }
+  body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    color: var(--text);
+    font-family: 'Quicksand', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    font-weight: 600;
+    background: linear-gradient(130deg, var(--bg1), var(--bg2), var(--bg3), var(--bg1));
+    background-size: 300% 300%;
+    animation: drift 18s ease-in-out infinite;
+  }
+  @keyframes drift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  /* floating hearts */
+  #hearts, #confetti { position: fixed; inset: 0; overflow: hidden; pointer-events: none; }
+  #hearts { z-index: 0; }
+  #confetti { z-index: 5; }
+  #hearts span {
+    position: absolute;
+    bottom: -48px;
+    opacity: 0;
+    animation: rise linear infinite;
+    filter: saturate(1.1);
+  }
+  @keyframes rise {
+    0% { transform: translateY(0) rotate(-12deg); opacity: 0; }
+    10% { opacity: 0.75; }
+    90% { opacity: 0.6; }
+    100% { transform: translateY(-115vh) rotate(24deg); opacity: 0; }
+  }
+  #confetti span {
+    position: absolute;
+    top: -48px;
+    animation: fall linear forwards;
+  }
+  @keyframes fall {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(115vh) rotate(420deg); opacity: 0.9; }
+  }
+
+  .wrap {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    overflow-y: auto;
+    display: flex;
+    padding: 20px;
+  }
+  .card {
+    margin: auto;
+    width: 100%;
+    max-width: 460px;
+    padding: 30px 24px 28px;
+    text-align: center;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 32px;
+    box-shadow: 0 24px 60px -18px var(--shadow);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+  }
+
+  .bar {
+    height: 6px;
+    border-radius: 6px;
+    background: var(--ghost-border);
+    opacity: 0.55;
+    margin: 0 8px 22px;
+    overflow: hidden;
+    transition: opacity 0.3s;
+  }
+  .bar.hidden { opacity: 0; }
+  .bar i {
+    display: block;
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, var(--accent-2), var(--accent));
+    border-radius: 6px;
+    transition: width 0.5s ease;
+  }
+  .count {
+    margin: -14px 0 14px;
+    font-size: 13px;
+    color: var(--muted);
+    min-height: 18px;
+  }
+
+  .stage { animation: pop 0.45s cubic-bezier(.2, 1.3, .4, 1) both; }
+  @keyframes pop {
+    from { transform: scale(0.92) translateY(10px); opacity: 0; }
+    to { transform: none; opacity: 1; }
+  }
+
+  .emoji {
+    font-size: 64px;
+    line-height: 1;
+    margin-bottom: 14px;
+    display: inline-block;
+    animation: beat 1.6s ease-in-out infinite;
+  }
+  @keyframes beat {
+    0%, 100% { transform: scale(1); }
+    12% { transform: scale(1.14); }
+    24% { transform: scale(1); }
+    36% { transform: scale(1.1); }
+    48% { transform: scale(1); }
+  }
+  .title {
+    font-family: 'Pacifico', 'Brush Script MT', 'Segoe Script', cursive;
+    font-weight: 400;
+    font-size: clamp(26px, 7vw, 34px);
+    line-height: 1.3;
+    margin: 0 0 12px;
+    color: var(--accent);
+    text-wrap: balance;
+  }
+  .text {
+    margin: 0 auto 24px;
+    max-width: 34ch;
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--muted);
+    text-wrap: pretty;
+  }
+
+  .opts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    align-items: center;
+    min-height: 56px;
+  }
+  .opts.grid { display: grid; grid-template-columns: 1fr 1fr; }
+
+  .btn {
+    font: inherit;
+    font-weight: 700;
+    font-size: 17px;
+    padding: 14px 24px;
+    border-radius: 999px;
+    border: 2px solid var(--ghost-border);
+    background: var(--ghost-bg);
+    color: var(--text);
+    cursor: pointer;
+    transition: transform 0.25s ease, box-shadow 0.2s ease, background 0.2s;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .btn:hover { box-shadow: 0 8px 20px -8px var(--shadow); }
+  .btn:active { transform: scale(0.97); }
+  .btn:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+  .btn:disabled { opacity: 0.6; cursor: default; }
+  .btn.primary {
+    border-color: transparent;
+    color: var(--on-accent);
+    background: linear-gradient(135deg, var(--accent-2), var(--accent));
+    box-shadow: 0 10px 24px -10px var(--shadow);
+  }
+  .btn.big {
+    font-size: 22px;
+    padding: 18px 44px;
+    animation: throb 1.5s ease-in-out infinite;
+  }
+  @keyframes throb {
+    0%, 100% { box-shadow: 0 10px 24px -10px var(--shadow), 0 0 0 0 var(--shadow); }
+    50% { box-shadow: 0 10px 24px -10px var(--shadow), 0 0 0 14px rgba(255, 61, 127, 0); }
+  }
+  .btn.small { font-size: 14px; padding: 10px 18px; opacity: 0.9; }
+  .grid .btn { padding: 16px 10px; border-radius: 22px; }
+
+  .reaction {
+    min-height: 26px;
+    margin: 18px auto 0;
+    max-width: 32ch;
+    font-size: 15px;
+    color: var(--accent);
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.3s, transform 0.3s;
+  }
+  .reaction.show { opacity: 1; transform: none; }
+
+  .link {
+    display: inline-block;
+    text-decoration: none;
+  }
+  .note {
+    margin: 16px auto 0;
+    max-width: 32ch;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+  .plan {
+    display: inline-block;
+    margin: 0 auto 22px;
+    padding: 10px 18px;
+    border-radius: 18px;
+    border: 2px dashed var(--ghost-border);
+    font-size: 16px;
+  }
+
+  @media (max-width: 380px) {
+    .card { padding: 26px 16px 24px; border-radius: 26px; }
+    .btn.big { padding: 16px 32px; font-size: 20px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    body, .emoji, .btn.big { animation: none; }
+    .stage { animation-duration: 0.01s; }
+  }
+</style>
+</head>
+<body>
+  <div id="hearts" aria-hidden="true"></div>
+  <div id="confetti" aria-hidden="true"></div>
+
+  <main class="wrap">
+    <section class="card">
+      <div class="bar hidden" id="bar" aria-hidden="true"><i id="barFill"></i></div>
+      <div id="stage" class="stage" aria-live="polite"></div>
+    </section>
+  </main>
+
+<script>
+  // ---- Edit these three lines ----------------------------------------
+  const NAME = "Priya";
+  const HIS_NUMBER = "916263387638";   // WhatsApp number: country code + number, digits only
+  // --------------------------------------------------------------------
+
+  const TOTAL = 7;
+  const state = { date: "", answers: {} };
+  let idx = 0;
+  let locked = false;
+
+  const stages = [
+    {
+      emoji: "💌",
+      title: `Hey ${NAME}…`,
+      text: "I made a little something for you. It's only a few questions. Ready?",
+      options: [{ label: "Show me 💕", primary: true }]
+    },
+    {
+      emoji: "🥰",
+      title: "Do you like talking to me?",
+      text: "Be honest, I can take it 😄",
+      track: true,
+      options: [
+        { label: "Yes, a lot 😊", primary: true },
+        { label: "A little bit 🤏" }
+      ],
+      reaction: "Good. Because I like talking to you way more than a little 🙈"
+    },
+    {
+      emoji: "📱",
+      title: "Do you secretly enjoy seeing my name pop up on your phone?",
+      text: "Nobody is watching. Promise.",
+      track: true,
+      options: [
+        { label: "Yes", primary: true, reaction: "Knew it 😄 Same here." },
+        { label: "Maybe a little 🙈", reaction: "A little is a great start 😏" }
+      ]
+    },
+    {
+      emoji: "💝",
+      title: "Do I have a tiny little spot in your heart?",
+      text: "Even a very small one counts.",
+      track: true,
+      options: [
+        { label: "Yes 💗", primary: true, reaction: "My heart just did a tiny dance 🥹" },
+        { label: "You wish 😌", reaction: "I'll take that as a secret yes 😌" }
+      ]
+    },
+    {
+      emoji: "🥺",
+      title: "Be honest… do I make you smile sometimes? 🥺",
+      text: "Just between us.",
+      track: true,
+      options: [
+        { label: "Yes, you do 💗", primary: true, reaction: "That's my favourite thing to hear 🥺💗" },
+        { label: "I'm not admitting it 🙈", reaction: "Your smile says otherwise 😄" }
+      ]
+    },
+    {
+      emoji: "💗",
+      title: "Okay… one last thing",
+      text: "Just one real question left. Ready?",
+      options: [
+        { label: "Ready 💗", primary: true },
+        { label: "Not yet 🙈", stay: true, swapText: "Take a deep breath… I'll wait 🌬️" }
+      ]
+    },
+    {
+      emoji: "🌹",
+      title: `${NAME}, will you go on a date with me?`,
+      text: "I really enjoy talking to you, and I'd love to take you out. Just us, a good time, no pressure.",
+      options: [
+        { label: "Yes 💖", primary: true, big: true, final: "yes" },
+        { label: "No 🙅", dodge: true, limit: 6, giveUp: "Okay… no 😔", final: "time" },
+        { label: "I need some time 🥺", small: true, final: "time" }
+      ]
+    },
+    {
+      emoji: "🎉",
+      title: "Yay! Where should we go?",
+      q: "Where should we go?",
+      text: "Pick your favourite. I'll plan the rest.",
+      grid: true,
+      last: true,
+      options: [
+        { label: "Coffee ☕", value: "a coffee date ☕", reaction: "Coffee it is. Saved 📌" },
+        { label: "Dinner 🍝", value: "a dinner date 🍝", reaction: "Dinner it is. Saved 📌" },
+        { label: "Long drive 🚗", value: "a long drive 🚗", reaction: "A long drive. Great pick, saved 📌" },
+        { label: "Movie 🎬", value: "a movie night 🎬", reaction: "Movie night. Popcorn is on me 📌" }
+      ]
+    }
+  ];
+
+  const stageEl = document.getElementById("stage");
+  const barEl = document.getElementById("bar");
+  const barFill = document.getElementById("barFill");
+
+  function el(tag, cls, text) {
+    const n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text !== undefined) n.textContent = text;
+    return n;
+  }
+
+  function setProgress(i, show) {
+    barEl.classList.toggle("hidden", !show);
+    barFill.style.width = Math.min(100, (i / TOTAL) * 100) + "%";
+  }
+
+  function swapIn(node) {
+    stageEl.replaceChildren(node);
+    stageEl.classList.remove("stage");
+    void stageEl.offsetWidth; // restart pop animation
+    stageEl.classList.add("stage");
+  }
+
+  function render(i) {
+    idx = i;
+    const s = stages[i];
+    setProgress(i, i > 0);
+
+    const box = el("div");
+    box.append(el("div", "emoji", s.emoji), el("h1", "title", s.title));
+    const textEl = el("p", "text", s.text || "");
+    box.append(textEl);
+
+    const opts = el("div", "opts" + (s.grid ? " grid" : ""));
+    const reactEl = el("div", "reaction");
+    reactEl.setAttribute("role", "status");
+
+    s.options.forEach((o) => opts.append(makeButton(s, o, textEl, opts, reactEl)));
+    box.append(opts, reactEl);
+    swapIn(box);
+  }
+
+  function makeButton(s, o, textEl, opts, reactEl) {
+    const b = el("button", "btn", o.label);
+    b.type = "button";
+    if (o.primary) b.classList.add("primary");
+    if (o.big) b.classList.add("big");
+    if (o.small) b.classList.add("small");
+
+    if (o.dodge) {
+      let curX = 0, curY = 0, tries = 0, gaveUp = false;
+      const LIMIT = o.limit || 4;
+
+      const run = () => {
+        if (gaveUp) return;
+        tries++;
+        if (tries >= LIMIT) {
+          gaveUp = true;
+          b.textContent = o.giveUp;
+          if (!o.final) b.classList.add("primary");
+          b.style.transform = "translate(0,0)";
+          return;
+        }
+        // measure the button's resting position (transform-free)
+        b.style.transition = "none";
+        b.style.transform = "none";
+        const r = b.getBoundingClientRect();
+        b.style.transform = `translate(${curX}px, ${curY}px)`;
+        void b.offsetWidth;
+        b.style.transition = "";
+
+        let nx = (Math.random() < 0.5 ? -1 : 1) * (60 + Math.random() * 70);
+        let ny = (Math.random() < 0.5 ? -1 : 1) * (30 + Math.random() * 60);
+        if (r.left + nx < 8 || r.right + nx > innerWidth - 8) nx = -nx;
+        if (r.top + ny < 8 || r.bottom + ny > innerHeight - 8) ny = -ny;
+        curX = nx; curY = ny;
+        b.style.transform = `translate(${nx}px, ${ny}px)`;
+      };
+
+      b.addEventListener("pointerenter", (e) => { if (e.pointerType === "mouse") run(); });
+      b.addEventListener("pointerdown", (e) => { if (!gaveUp && e.pointerType !== "mouse") { e.preventDefault(); run(); } });
+      b.addEventListener("click", (e) => {
+        if (!gaveUp) { e.preventDefault(); run(); return; }
+        choose(s, o, b, textEl, opts, reactEl);
+      });
+      return b;
+    }
+
+    b.addEventListener("click", () => choose(s, o, b, textEl, opts, reactEl));
+    return b;
+  }
+
+  function choose(s, o, btn, textEl, opts, reactEl) {
+    if (locked) return;
+
+    if (o.stay) {
+      textEl.textContent = o.swapText;
+      btn.remove();
+      return;
+    }
+    if (o.final === "time") { renderTime(); return; }
+    if (o.final === "yes") { burst(45); render(idx + 1); return; }
+
+    if (o.value) state.date = o.value;
+    if (s.track || s.last) state.answers[s.q || s.title] = o.label;
+
+    const msg = o.reaction || s.reaction;
+    if (msg) {
+      locked = true;
+      reactEl.textContent = msg;
+      reactEl.classList.add("show");
+      [...opts.children].forEach((c) => { c.disabled = true; });
+      setTimeout(() => { locked = false; s.last ? renderYes() : render(idx + 1); }, 1600);
+    } else {
+      s.last ? renderYes() : render(idx + 1);
+    }
+  }
+
+  function renderTime() {
+    setProgress(TOTAL, false);
+    const box = el("div");
+    box.append(
+      el("div", "emoji", "🌷"),
+      el("h1", "title", "Of course"),
+      el("p", "text", "Take all the time you need. No pressure at all. I enjoy talking to you either way.")
+    );
+    const opts = el("div", "opts");
+    const back = el("button", "btn", "Go back");
+    back.type = "button";
+    back.addEventListener("click", () => render(stages.findIndex((st) => st.options.some((o) => o.final === "time"))));
+    opts.append(back);
+    box.append(opts);
+    swapIn(box);
+  }
+
+  function renderYes() {
+    setProgress(TOTAL, false);
+    burst(80);
+    setTimeout(() => burst(50), 1400);
+
+    const box = el("div");
+    box.append(
+      el("div", "emoji", "🥹"),
+      el("h1", "title", "It's a date!"),
+      el("p", "text", `Thank you, ${NAME}. I'm so happy. I'll make it a really nice one 💖`)
+    );
+
+    if (state.date) {
+      box.append(el("div", "plan", `Our plan: ${state.date}`));
+      box.append(el("br"));
+    }
+
+    const lines = Object.entries(state.answers).map(([q, a]) => `• ${q} → ${a}`).join("\n");
+    const msg = `Yes 💖 I saw your surprise, and I'd love to go on a date with you!` +
+      (state.date ? ` ${state.date} sounds perfect.` : "") +
+      (lines ? `\n\nMy answers:\n${lines}` : "");
+    const link = el("a", "btn primary link", "Send him my answers 💌");
+    link.href = `https://wa.me/${HIS_NUMBER}?text=${encodeURIComponent(msg)}`;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+
+    const opts = el("div", "opts");
+    opts.append(link);
+    box.append(opts, el("p", "note", "This opens WhatsApp with your answers already written. You just hit send."));
+    swapIn(box);
+  }
+
+  // ---- decoration ------------------------------------------------------
+  const HEARTS = ["💗", "💕", "💖", "💘", "🌸", "🩷"];
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function seedHearts() {
+    const box = document.getElementById("hearts");
+    const n = reduce ? 8 : 26;
+    for (let i = 0; i < n; i++) {
+      const s = document.createElement("span");
+      s.textContent = HEARTS[i % HEARTS.length];
+      s.style.left = Math.random() * 100 + "%";
+      s.style.fontSize = 14 + Math.random() * 26 + "px";
+      s.style.animationDuration = 9 + Math.random() * 11 + "s";
+      s.style.animationDelay = -Math.random() * 20 + "s";
+      box.appendChild(s);
+    }
+  }
+
+  function burst(n) {
+    const box = document.getElementById("confetti");
+    const bits = ["💖", "💗", "💕", "💘", "🌸", "✨", "🎉", "🌹"];
+    for (let i = 0; i < n; i++) {
+      const s = document.createElement("span");
+      s.textContent = bits[Math.floor(Math.random() * bits.length)];
+      s.style.left = Math.random() * 100 + "%";
+      s.style.fontSize = 16 + Math.random() * 24 + "px";
+      s.style.animationDuration = 2.8 + Math.random() * 3 + "s";
+      s.style.animationDelay = Math.random() * 0.9 + "s";
+      box.appendChild(s);
+      setTimeout(() => s.remove(), 8000);
+    }
+  }
+
+  document.title = `For ${NAME} 💌`;
+  seedHearts();
+  render(0);
+</script>
+</body>
+</html>
